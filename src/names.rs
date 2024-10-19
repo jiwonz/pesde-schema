@@ -84,7 +84,7 @@ impl JsonSchema for PackageName {
         schemars::schema::SchemaObject {
             instance_type: Some(schemars::schema::InstanceType::String.into()),
 			string: Some(Box::new(schemars::schema::StringValidation {
-				pattern: Some("^(?:[a-z0-9_]+)(?:/[a-z0-9_]+)*$".to_owned()),
+				pattern: Some(r"^(?:[a-z0-9_]+)(?:/[a-z0-9_]+)*$".to_string()),
 				..Default::default()
 			})),
             ..Default::default()
