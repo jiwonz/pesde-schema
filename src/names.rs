@@ -83,10 +83,10 @@ impl JsonSchema for PackageName {
     fn json_schema(_: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
         schemars::schema::SchemaObject {
             instance_type: Some(schemars::schema::InstanceType::String.into()),
-			string: Some(Box::new(schemars::schema::StringValidation {
-				pattern: Some(r"^(?!_)([a-z0-9_]{3,32})(?<!_)\/(?!_)(?![0-9]+$)([a-z0-9_]{3,32})(?<!_)$".to_owned()),
-				..Default::default()
-			})),
+            string: Some(Box::new(schemars::schema::StringValidation {
+                pattern: Some(r"/^(?!\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))\/(?!\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))$/gm".to_owned()),
+                ..Default::default()
+            })),
             ..Default::default()
         }.into()
     }

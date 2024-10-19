@@ -2,7 +2,6 @@ use relative_path::RelativePathBuf;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
-use url::Url;
 
 use crate::source::DependencySpecifier;
 
@@ -14,7 +13,7 @@ pub struct GitDependencySpecifier {
         serialize_with = "crate::util::serialize_gix_url",
         deserialize_with = "crate::util::deserialize_git_like_url"
     )]
-	#[schemars(with = "Url")]
+	#[schemars(with = "String")]
     pub repo: gix::Url,
     /// The revision of the package
     pub rev: String,

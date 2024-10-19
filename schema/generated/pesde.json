@@ -121,8 +121,7 @@
       "type": [
         "string",
         "null"
-      ],
-      "format": "uri"
+      ]
     },
     "scripts": {
       "description": "The scripts of the package",
@@ -215,8 +214,7 @@
         },
         "repo": {
           "description": "The repository of the package",
-          "type": "string",
-          "format": "uri"
+          "type": "string"
         },
         "rev": {
           "description": "The revision of the package",
@@ -226,7 +224,7 @@
     },
     "PackageName": {
       "type": "string",
-      "pattern": "^(?!_)([a-z0-9_]{3,32})(?<!_)\\/(?!_)(?![0-9]+$)([a-z0-9_]{3,32})(?<!_)$"
+      "pattern": "/^(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))\\/(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))$/gm"
     },
     "PesdeDependencySpecifier": {
       "description": "The specifier for a pesde dependency",

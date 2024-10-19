@@ -34,6 +34,7 @@ pub struct Manifest {
     pub authors: Vec<String>,
     /// The repository of the package
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    #[schemars(with = "Option<String>")]
     pub repository: Option<url::Url>,
     /// The target of the package
     pub target: Target,
@@ -41,8 +42,8 @@ pub struct Manifest {
     #[serde(default)]
     pub private: bool,
     /// The scripts of the package
-    #[schemars(with = "BTreeMap<String, std::path::PathBuf>")]
     #[serde(skip_serializing_if="BTreeMap::is_empty")]
+    #[schemars(with = "BTreeMap<String, std::path::PathBuf>")]
     pub scripts: BTreeMap<String, RelativePathBuf>,
     /// The indices to use for the package
     #[serde(
