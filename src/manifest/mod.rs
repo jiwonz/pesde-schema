@@ -20,7 +20,6 @@ pub mod target;
 #[derive(Serialize, Deserialize, Debug, Clone, JsonSchema)]
 pub struct Manifest {
     /// The name of the package
-	#[schemars(with = "String")]
     pub name: PackageName,
     /// The version of the package
     pub version: Version,
@@ -43,7 +42,7 @@ pub struct Manifest {
     pub private: bool,
     /// The scripts of the package
     #[schemars(with = "BTreeMap<String, std::path::PathBuf>")]
-	#[serde(skip_serializing_if="BTreeMap::is_empty")]
+    #[serde(skip_serializing_if="BTreeMap::is_empty")]
     pub scripts: BTreeMap<String, RelativePathBuf>,
     /// The indices to use for the package
     #[serde(

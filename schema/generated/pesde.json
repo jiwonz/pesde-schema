@@ -65,7 +65,11 @@
     },
     "name": {
       "description": "The name of the package",
-      "type": "string"
+      "allOf": [
+        {
+          "$ref": "#/definitions/PackageName"
+        }
+      ]
     },
     "overrides": {
       "description": "The overrides this package has",
@@ -221,18 +225,7 @@
       }
     },
     "PackageName": {
-      "description": "A pesde package name",
-      "type": "array",
-      "items": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "string"
-        }
-      ],
-      "maxItems": 2,
-      "minItems": 2
+      "type": "string"
     },
     "PesdeDependencySpecifier": {
       "description": "The specifier for a pesde dependency",

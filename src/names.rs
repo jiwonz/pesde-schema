@@ -23,7 +23,7 @@ impl Display for ErrorReason {
 
 /// A pesde package name
 #[derive(
-    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema
+    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord,
 )]
 pub struct PackageName(String, String);
 
@@ -72,6 +72,20 @@ impl PackageName {
     /// Returns the package name as a string suitable for use in the filesystem
     pub fn escaped(&self) -> String {
         format!("{}+{}", self.0, self.1)
+    }
+}
+
+impl JsonSchema for PackageName {
+    fn schema_name() -> String {
+        "PackageName".to_string()
+    }
+
+    fn json_schema(_: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
+        // Define the schema as a string
+        schemars::schema::SchemaObject {
+            instance_type: Some(schemars::schema::InstanceType::String.into()), // Treat as a String
+            ..Default::default()
+        }.into()
     }
 }
 
