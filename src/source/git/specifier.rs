@@ -20,7 +20,7 @@ pub struct GitDependencySpecifier {
     pub rev: String,
     /// The path of the package in the repository
     #[serde(default, skip_serializing_if = "Option::is_none")]
-	#[schemars(with = "Option<String>")]
+	#[schemars(with = "Option<std::path::PathBuf>")]
     pub path: Option<RelativePathBuf>,
 }
 impl DependencySpecifier for GitDependencySpecifier {}

@@ -12,6 +12,7 @@ use std::{
 #[derive(
     SerializeDisplay, DeserializeFromStr, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema,
 )]
+#[schemars(rename_all = "snake_case")]
 pub enum TargetKind {
     /// A Roblox target
     Roblox,
@@ -79,7 +80,7 @@ pub enum Target {
     Roblox {
         /// The path to the lib export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         lib: Option<RelativePathBuf>,
         /// The files to include in the sync tool's config
         #[serde(default)]
@@ -89,7 +90,7 @@ pub enum Target {
     RobloxServer {
         /// The path to the lib export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         lib: Option<RelativePathBuf>,
         /// The files to include in the sync tool's config
         #[serde(default)]
@@ -99,22 +100,22 @@ pub enum Target {
     Lune {
         /// The path to the lib export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         lib: Option<RelativePathBuf>,
         /// The path to the bin export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         bin: Option<RelativePathBuf>,
     },
     /// A Luau target
     Luau {
         /// The path to the lib export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         lib: Option<RelativePathBuf>,
         /// The path to the bin export file
         #[serde(default)]
-		#[schemars(with = "Option<String>")]
+		#[schemars(with = "Option<std::path::PathBuf>")]
         bin: Option<RelativePathBuf>,
     },
 }

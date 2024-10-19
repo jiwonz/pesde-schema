@@ -5,8 +5,6 @@
   "type": "object",
   "required": [
     "name",
-    "overrides",
-    "place",
     "scripts",
     "target",
     "version"
@@ -75,10 +73,19 @@
     },
     "overrides": {
       "description": "The overrides this package has",
-      "writeOnly": true,
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/DependencySpecifiers"
+      }
+    },
+    "patches": {
+      "description": "The patches to apply to packages",
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
       }
     },
     "peer_dependencies": {
@@ -99,7 +106,6 @@
     },
     "place": {
       "description": "The Roblox place of this project",
-      "writeOnly": true,
       "type": "object",
       "additionalProperties": {
         "type": "string"
@@ -120,7 +126,6 @@
     },
     "scripts": {
       "description": "The scripts of the package",
-      "writeOnly": true,
       "type": "object",
       "additionalProperties": {
         "type": "string"
@@ -139,6 +144,14 @@
       "type": "string",
       "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
     },
+    "wally_indices": {
+      "description": "The indices to use for the package's wally dependencies",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
     "workspace_members": {
       "description": "A list of globs pointing to workspace members' directories",
       "type": "array",
@@ -156,6 +169,14 @@
           "allOf": [
             {
               "$ref": "#/definitions/PesdeDependencySpecifier"
+            }
+          ]
+        },
+        {
+          "description": "A Wally dependency specifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/WallyDependencySpecifier"
             }
           ]
         },
@@ -396,28 +417,28 @@
           "description": "A Roblox target",
           "type": "string",
           "enum": [
-            "Roblox"
+            "roblox"
           ]
         },
         {
           "description": "A Roblox server target",
           "type": "string",
           "enum": [
-            "RobloxServer"
+            "roblox_server"
           ]
         },
         {
           "description": "A Lune target",
           "type": "string",
           "enum": [
-            "Lune"
+            "lune"
           ]
         },
         {
           "description": "A Luau target",
           "type": "string",
           "enum": [
-            "Luau"
+            "luau"
           ]
         }
       ]
@@ -486,6 +507,50 @@
           "additionalProperties": false
         }
       ]
+    },
+    "WallyDependencySpecifier": {
+      "description": "The specifier for a Wally dependency",
+      "type": "object",
+      "required": [
+        "version",
+        "wally"
+      ],
+      "properties": {
+        "index": {
+          "description": "The index to use for the package",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "description": "The version requirement for the package",
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "wally": {
+          "description": "The name of the package",
+          "allOf": [
+            {
+              "$ref": "#/definitions/WallyPackageName"
+            }
+          ]
+        }
+      }
+    },
+    "WallyPackageName": {
+      "description": "A Wally package name",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
     },
     "WorkspaceDependencySpecifier": {
       "description": "The specifier for a workspace dependency",

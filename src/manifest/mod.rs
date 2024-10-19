@@ -41,8 +41,8 @@ pub struct Manifest {
     #[serde(default)]
     pub private: bool,
     /// The scripts of the package
-    #[serde(default, skip_serializing)]
-    #[schemars(with = "BTreeMap<String, String>")]
+    #[schemars(with = "BTreeMap<String, std::path::PathBuf>")]
+	#[serde(skip_serializing_if="BTreeMap::is_empty")]
     pub scripts: BTreeMap<String, RelativePathBuf>,
     /// The indices to use for the package
     #[serde(
@@ -63,14 +63,18 @@ pub struct Manifest {
     #[schemars(with = "BTreeMap<String, url::Url>")]
     pub wally_indices: BTreeMap<String, gix::Url>,
     /// The overrides this package has
-    #[serde(default, skip_serializing)]
+    #[serde(default, skip_serializing_if="BTreeMap::is_empty")]
     pub overrides: BTreeMap<OverrideKey, DependencySpecifiers>,
     /// The files to include in the package
     #[serde(default)]
     pub includes: BTreeSet<String>,
     /// The patches to apply to packages
     #[cfg(feature = "patches")]
-    #[serde(default, skip_serializing)]
+    #[serde(default, skip_serializing_if="BTreeMap::is_empty")]
+    #[schemars(with = "BTreeMap<
+        crate::names::PackageNames,
+        BTreeMap<crate::source::version_id::VersionId, std::path::PathBuf>
+    >")]
     pub patches: BTreeMap<
         crate::names::PackageNames,
         BTreeMap<crate::source::version_id::VersionId, RelativePathBuf>,
@@ -82,7 +86,7 @@ pub struct Manifest {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub workspace_members: Vec<String>,
     /// The Roblox place of this project
-    #[serde(default, skip_serializing)]
+    #[serde(default, skip_serializing_if="BTreeMap::is_empty")]
     pub place: BTreeMap<target::RobloxPlaceKind, String>,
 
     /// The standard dependencies of the package
