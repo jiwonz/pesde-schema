@@ -65,11 +65,7 @@
     },
     "name": {
       "description": "The name of the package",
-      "allOf": [
-        {
-          "$ref": "#/definitions/PackageName"
-        }
-      ]
+      "type": "string"
     },
     "overrides": {
       "description": "The overrides this package has",
