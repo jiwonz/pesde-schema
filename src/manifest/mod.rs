@@ -20,6 +20,7 @@ pub mod target;
 #[derive(Serialize, Deserialize, Debug, Clone, JsonSchema)]
 pub struct Manifest {
     /// The name of the package
+	#[schemars(with = "String")]
     pub name: PackageName,
     /// The version of the package
     pub version: Version,
