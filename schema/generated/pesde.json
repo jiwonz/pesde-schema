@@ -226,7 +226,7 @@
     },
     "PackageName": {
       "type": "string",
-      "pattern": "^[a-z0-9_]{3,32}(?:/[a-z0-9_]{3,32})+$"
+      "pattern": "^(?!_)([a-z0-9_]{3,32})(?<!_)\\/(?!_)(?![0-9]+$)([a-z0-9_]{3,32})(?<!_)$"
     },
     "PesdeDependencySpecifier": {
       "description": "The specifier for a pesde dependency",
