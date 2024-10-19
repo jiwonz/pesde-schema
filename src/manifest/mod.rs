@@ -3,6 +3,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use relative_path::RelativePathBuf;
 use semver::Version;
 use serde::{Deserialize, Serialize};
+use schemars::JsonSchema;
 
 use crate::{
     manifest::{overrides::OverrideKey, target::Target},
@@ -16,7 +17,7 @@ pub mod overrides;
 pub mod target;
 
 /// A package manifest
-#[derive(Serialize, Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone, JsonSchema)]
 pub struct Manifest {
     /// The name of the package
     pub name: PackageName,
@@ -41,6 +42,7 @@ pub struct Manifest {
     pub private: bool,
     /// The scripts of the package
     #[serde(default, skip_serializing)]
+    #[schemars(with = "BTreeMap<String, String>")]
     pub scripts: BTreeMap<String, RelativePathBuf>,
     /// The indices to use for the package
     #[serde(
@@ -48,6 +50,7 @@ pub struct Manifest {
         serialize_with = "crate::util::serialize_gix_url_map",
         deserialize_with = "crate::util::deserialize_gix_url_map"
     )]
+    #[schemars(with = "BTreeMap<String, url::Url>")]
     pub indices: BTreeMap<String, gix::Url>,
     /// The indices to use for the package's wally dependencies
     #[cfg(feature = "wally-compat")]
@@ -57,6 +60,7 @@ pub struct Manifest {
         serialize_with = "crate::util::serialize_gix_url_map",
         deserialize_with = "crate::util::deserialize_gix_url_map"
     )]
+    #[schemars(with = "BTreeMap<String, url::Url>")]
     pub wally_indices: BTreeMap<String, gix::Url>,
     /// The overrides this package has
     #[serde(default, skip_serializing)]

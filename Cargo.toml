@@ -78,13 +78,14 @@ pretty_env_logger = { version = "0.5.0", optional = true }
 indicatif = { version = "0.17.8", optional = true }
 indicatif-log-bridge = { version = "0.2.3", optional = true }
 inquire = { version = "0.7.5", optional = true }
+schemars = { version = "0.8.21", features = ["semver", "url"] }
 
 [target.'cfg(target_os = "windows")'.dependencies]
 winreg = { version = "0.52.0", optional = true }
 
 [workspace]
 resolver = "2"
-members = ["registry"]
+members = ["registry", "schema"]
 
 [profile.dev.package.full_moon]
 opt-level = 3

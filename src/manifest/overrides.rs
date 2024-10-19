@@ -1,3 +1,4 @@
+use schemars::JsonSchema;
 use serde_with::{DeserializeFromStr, SerializeDisplay};
 use std::{
     fmt::{Display, Formatter},
@@ -6,7 +7,7 @@ use std::{
 
 /// An override key
 #[derive(
-    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord,
+    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema,
 )]
 pub struct OverrideKey(pub Vec<Vec<String>>);
 

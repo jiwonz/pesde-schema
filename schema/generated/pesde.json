@@ -1,0 +1,530 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Manifest",
+  "description": "A package manifest",
+  "type": "object",
+  "required": [
+    "name",
+    "overrides",
+    "place",
+    "scripts",
+    "target",
+    "version"
+  ],
+  "properties": {
+    "authors": {
+      "description": "The authors of the package",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dependencies": {
+      "description": "The standard dependencies of the package",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/DependencySpecifiers"
+      }
+    },
+    "description": {
+      "description": "The description of the package",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "dev_dependencies": {
+      "description": "The dev dependencies of the package",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/DependencySpecifiers"
+      }
+    },
+    "includes": {
+      "description": "The files to include in the package",
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "indices": {
+      "description": "The indices to use for the package",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "license": {
+      "description": "The license of the package",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "name": {
+      "description": "The name of the package",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PackageName"
+        }
+      ]
+    },
+    "overrides": {
+      "description": "The overrides this package has",
+      "writeOnly": true,
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/DependencySpecifiers"
+      }
+    },
+    "peer_dependencies": {
+      "description": "The peer dependencies of the package",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/DependencySpecifiers"
+      }
+    },
+    "pesde_version": {
+      "description": "Which version of the pesde CLI this package uses",
+      "writeOnly": true,
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    },
+    "place": {
+      "description": "The Roblox place of this project",
+      "writeOnly": true,
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "private": {
+      "description": "Whether the package is private",
+      "default": false,
+      "type": "boolean"
+    },
+    "repository": {
+      "description": "The repository of the package",
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri"
+    },
+    "scripts": {
+      "description": "The scripts of the package",
+      "writeOnly": true,
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "target": {
+      "description": "The target of the package",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Target"
+        }
+      ]
+    },
+    "version": {
+      "description": "The version of the package",
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+    },
+    "workspace_members": {
+      "description": "A list of globs pointing to workspace members' directories",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "DependencySpecifiers": {
+      "description": "All possible dependency specifiers",
+      "anyOf": [
+        {
+          "description": "A pesde dependency specifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PesdeDependencySpecifier"
+            }
+          ]
+        },
+        {
+          "description": "A Git dependency specifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/GitDependencySpecifier"
+            }
+          ]
+        },
+        {
+          "description": "A workspace dependency specifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/WorkspaceDependencySpecifier"
+            }
+          ]
+        }
+      ]
+    },
+    "GitDependencySpecifier": {
+      "description": "The specifier for a Git dependency",
+      "type": "object",
+      "required": [
+        "repo",
+        "rev"
+      ],
+      "properties": {
+        "path": {
+          "description": "The path of the package in the repository",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "repo": {
+          "description": "The repository of the package",
+          "type": "string",
+          "format": "uri"
+        },
+        "rev": {
+          "description": "The revision of the package",
+          "type": "string"
+        }
+      }
+    },
+    "PackageName": {
+      "description": "A pesde package name",
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "maxItems": 2,
+      "minItems": 2
+    },
+    "PesdeDependencySpecifier": {
+      "description": "The specifier for a pesde dependency",
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "index": {
+          "description": "The index to use for the package",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "description": "The name of the package",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PackageName"
+            }
+          ]
+        },
+        "target": {
+          "description": "The target to use for the package",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TargetKind"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "description": "The version requirement for the package",
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        }
+      }
+    },
+    "Target": {
+      "description": "A target of a package",
+      "oneOf": [
+        {
+          "description": "A Roblox target",
+          "type": "object",
+          "required": [
+            "environment"
+          ],
+          "properties": {
+            "build_files": {
+              "description": "The files to include in the sync tool's config",
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "roblox"
+              ]
+            },
+            "lib": {
+              "description": "The path to the lib export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "description": "A Roblox server target",
+          "type": "object",
+          "required": [
+            "environment"
+          ],
+          "properties": {
+            "build_files": {
+              "description": "The files to include in the sync tool's config",
+              "default": [],
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "uniqueItems": true
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "roblox_server"
+              ]
+            },
+            "lib": {
+              "description": "The path to the lib export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "description": "A Lune target",
+          "type": "object",
+          "required": [
+            "environment"
+          ],
+          "properties": {
+            "bin": {
+              "description": "The path to the bin export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "lune"
+              ]
+            },
+            "lib": {
+              "description": "The path to the lib export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "description": "A Luau target",
+          "type": "object",
+          "required": [
+            "environment"
+          ],
+          "properties": {
+            "bin": {
+              "description": "The path to the bin export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "environment": {
+              "type": "string",
+              "enum": [
+                "luau"
+              ]
+            },
+            "lib": {
+              "description": "The path to the lib export file",
+              "default": null,
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "TargetKind": {
+      "description": "A kind of target",
+      "oneOf": [
+        {
+          "description": "A Roblox target",
+          "type": "string",
+          "enum": [
+            "Roblox"
+          ]
+        },
+        {
+          "description": "A Roblox server target",
+          "type": "string",
+          "enum": [
+            "RobloxServer"
+          ]
+        },
+        {
+          "description": "A Lune target",
+          "type": "string",
+          "enum": [
+            "Lune"
+          ]
+        },
+        {
+          "description": "A Luau target",
+          "type": "string",
+          "enum": [
+            "Luau"
+          ]
+        }
+      ]
+    },
+    "VersionType": {
+      "description": "The type of version to use when publishing a package",
+      "oneOf": [
+        {
+          "description": "The \"^\" version type",
+          "type": "string",
+          "enum": [
+            "Caret"
+          ]
+        },
+        {
+          "description": "The \"~\" version type",
+          "type": "string",
+          "enum": [
+            "Tilde"
+          ]
+        },
+        {
+          "description": "The \"=\" version type",
+          "type": "string",
+          "enum": [
+            "Exact"
+          ]
+        },
+        {
+          "description": "The \"*\" version type",
+          "type": "string",
+          "enum": [
+            "Wildcard"
+          ]
+        }
+      ]
+    },
+    "VersionTypeOrReq": {
+      "description": "Either a version type or a version requirement",
+      "oneOf": [
+        {
+          "description": "A version type",
+          "type": "object",
+          "required": [
+            "VersionType"
+          ],
+          "properties": {
+            "VersionType": {
+              "$ref": "#/definitions/VersionType"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "description": "A version requirement",
+          "type": "object",
+          "required": [
+            "Req"
+          ],
+          "properties": {
+            "Req": {
+              "type": "string",
+              "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "WorkspaceDependencySpecifier": {
+      "description": "The specifier for a workspace dependency",
+      "type": "object",
+      "required": [
+        "workspace"
+      ],
+      "properties": {
+        "target": {
+          "description": "The target of the workspace package",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TargetKind"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "description": "The version type to use when publishing the package",
+          "default": {
+            "VersionType": "^"
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/VersionTypeOrReq"
+            }
+          ]
+        },
+        "workspace": {
+          "description": "The name of the workspace package",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PackageName"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

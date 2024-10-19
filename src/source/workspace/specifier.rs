@@ -1,10 +1,11 @@
 use crate::{manifest::target::TargetKind, names::PackageName, source::DependencySpecifier};
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_with::{DeserializeFromStr, SerializeDisplay};
 use std::{fmt::Display, str::FromStr};
 
 /// The specifier for a workspace dependency
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash, JsonSchema)]
 pub struct WorkspaceDependencySpecifier {
     /// The name of the workspace package
     #[serde(rename = "workspace")]
@@ -25,7 +26,7 @@ impl Display for WorkspaceDependencySpecifier {
 
 /// The type of version to use when publishing a package
 #[derive(
-    Debug, SerializeDisplay, DeserializeFromStr, Clone, Copy, PartialEq, Eq, Hash, Default,
+    Debug, SerializeDisplay, DeserializeFromStr, Clone, Copy, PartialEq, Eq, Hash, Default, JsonSchema,
 )]
 pub enum VersionType {
     /// The "^" version type
@@ -67,11 +68,12 @@ impl FromStr for VersionType {
 }
 
 /// Either a version type or a version requirement
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash, JsonSchema)]
 pub enum VersionTypeOrReq {
     /// A version type
     VersionType(VersionType),
     /// A version requirement
+	#[schemars(with = "semver::Version")]
     Req(semver::VersionReq),
 }
 

@@ -1,5 +1,6 @@
 use std::{fmt::Display, str::FromStr};
 
+use schemars::JsonSchema;
 use serde_with::{DeserializeFromStr, SerializeDisplay};
 
 /// The invalid part of a package name
@@ -22,7 +23,7 @@ impl Display for ErrorReason {
 
 /// A pesde package name
 #[derive(
-    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord,
+    Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema
 )]
 pub struct PackageName(String, String);
 
@@ -147,13 +148,14 @@ impl FromStr for PackageNames {
 pub mod wally {
     use std::{fmt::Display, str::FromStr};
 
+    use schemars::JsonSchema;
     use serde_with::{DeserializeFromStr, SerializeDisplay};
 
     use crate::names::{errors, ErrorReason};
 
     /// A Wally package name
     #[derive(
-        Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord,
+        Debug, DeserializeFromStr, SerializeDisplay, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema,
     )]
     pub struct WallyPackageName(String, String);
 

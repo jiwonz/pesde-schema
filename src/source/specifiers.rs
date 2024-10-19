@@ -1,9 +1,10 @@
 use crate::source::{pesde, traits::DependencySpecifier};
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 
 /// All possible dependency specifiers
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Hash, JsonSchema)]
 #[serde(untagged)]
 pub enum DependencySpecifiers {
     /// A pesde dependency specifier

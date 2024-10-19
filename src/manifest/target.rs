@@ -1,4 +1,5 @@
 use relative_path::RelativePathBuf;
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_with::{DeserializeFromStr, SerializeDisplay};
 use std::{
@@ -9,7 +10,7 @@ use std::{
 
 /// A kind of target
 #[derive(
-    SerializeDisplay, DeserializeFromStr, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord,
+    SerializeDisplay, DeserializeFromStr, Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema,
 )]
 pub enum TargetKind {
     /// A Roblox target
@@ -71,13 +72,14 @@ impl TargetKind {
 }
 
 /// A target of a package
-#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Deserialize, Serialize, Debug, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, JsonSchema)]
 #[serde(rename_all = "snake_case", tag = "environment")]
 pub enum Target {
     /// A Roblox target
     Roblox {
         /// The path to the lib export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         lib: Option<RelativePathBuf>,
         /// The files to include in the sync tool's config
         #[serde(default)]
@@ -87,6 +89,7 @@ pub enum Target {
     RobloxServer {
         /// The path to the lib export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         lib: Option<RelativePathBuf>,
         /// The files to include in the sync tool's config
         #[serde(default)]
@@ -96,18 +99,22 @@ pub enum Target {
     Lune {
         /// The path to the lib export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         lib: Option<RelativePathBuf>,
         /// The path to the bin export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         bin: Option<RelativePathBuf>,
     },
     /// A Luau target
     Luau {
         /// The path to the lib export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         lib: Option<RelativePathBuf>,
         /// The path to the bin export file
         #[serde(default)]
+		#[schemars(with = "Option<String>")]
         bin: Option<RelativePathBuf>,
     },
 }
