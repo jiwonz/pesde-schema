@@ -224,7 +224,7 @@
     },
     "PackageName": {
       "type": "string",
-      "pattern": "/^(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))\\/(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9]))$/gm"
+      "pattern": "^(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9])?)\\/(?!\\d+$)([a-z](?:[a-z0-9_]{1,30}[a-z0-9])?)$"
     },
     "PesdeDependencySpecifier": {
       "description": "The specifier for a pesde dependency",
